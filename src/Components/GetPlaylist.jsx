@@ -13,54 +13,37 @@ const GetPlaylist = () => {
   const [tracks, setTracks] = useState([]);
   const [index, setIndex] = useState(0);
   const [currentTrack, setCurrentTrack] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loadingS, setLoadingS] = useState(true);
   const newUri = tUri.replaceAll(":", "%3A");
   const SINGLE_PLAYLIST_ENDPOINT = `https://api.spotify.com/v1/playlists/${listId}/tracks`;
-  console.log("tUri", tUri);
-  console.log(listId);
-  console.log(newUri);
-  console.log(`${SINGLE_PLAYLIST_ENDPOINT}?uris=${newUri}`);
 
-  const getReturnedParamsFromSpotifyAuth = (hash) => {
-    const stringAfterHashtag = hash.substring(1);
-    const paramsInUrl = stringAfterHashtag.split("&");
-    const paramsSplitUp = paramsInUrl.reduce((accumulater, currentValue) => {
-      const [key, value] = currentValue.split("=");
-      accumulater[key] = value;
-      return accumulater;
-    }, {});
-    return paramsSplitUp;
-  };
 
+//hämtar listan med de låtar som presenteras för användaren
   const handleGetPlaylist = () => {
-    const { access_token, expires_in } = getReturnedParamsFromSpotifyAuth(
-      window.location.hash
-    );
-    localStorage.setItem("expiresIn", expires_in);
-    localStorage.setItem("accessToken", access_token);
-
     axios
       .get(PLAYLIST_50_ENDPOINT, {
         headers: {
-          Authorization: "Bearer " + access_token,
+          Authorization: "Bearer " + localStorage.accessToken,
         },
       })
       .then((response) => {
         setTracks(response.data.items);
         setCurrentTrack(response.data.items[0].track);
-        setLoading(false);
+        setLoadingS(false);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  //en låt gillas => ändrar currenttrack till nästa samt ändrar TUri => newUri => lägger till låten i listan
   const getNextSongLike = () => {
     setTUri(tracks[index].track.uri);
-    // addNewSongToPlaylist();
-
     setCurrentTrack(tracks[index + 1].track);
     setIndex(index + 1);
   };
+
+  //En låt ogillas => ändrar currentTrack till ny låt
   const getNextSongDislike = () => {
     setCurrentTrack(tracks[index + 1].track);
     setIndex(index + 1);
@@ -105,7 +88,7 @@ const GetPlaylist = () => {
     handleGetPlaylist();
   }, []);
 
-  return loading ? (
+  return loadingS ? (
     "loading"
   ) : (
     <div className="card">
@@ -142,15 +125,14 @@ const GetPlaylist = () => {
         >
           Dislike
         </button>
-        <video
-          controls=""
+        <audio
           // autoplay=""
           name="media"
           key={currentTrack.preview_url}
           id={currentTrack.preview_url}
         >
           <source src={currentTrack.preview_url} type="audio/mpeg" />
-        </video>
+        </audio>
       </div>
     </div>
   );

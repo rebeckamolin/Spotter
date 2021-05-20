@@ -15,6 +15,28 @@ const HomePage = () => {
     else setButtonName("See Playlist");
   }, [isPlaylistOpen]);
 
+  const getReturnedParamsFromSpotifyAuth = (hash) => {
+    const stringAfterHashtag = hash.substring(1);
+    const paramsInUrl = stringAfterHashtag.split("&");
+    const paramsSplitUp = paramsInUrl.reduce((accumulater, currentValue) => {
+      const [key, value] = currentValue.split("=");
+      accumulater[key] = value;
+      return accumulater;
+    }, {});
+    return paramsSplitUp;
+  };
+
+  const setLocal = () => {
+    const { access_token, expires_in } = getReturnedParamsFromSpotifyAuth(
+      window.location.hash
+    );
+    localStorage.setItem("expiresIn", expires_in);
+    localStorage.setItem("accessToken", access_token);
+  };
+  useEffect(() => {
+    setLocal();
+  }, []);
+
   return (
     <div className="mainContainer">
       <h1>Spotter</h1>

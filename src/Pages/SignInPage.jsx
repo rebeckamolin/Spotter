@@ -18,6 +18,7 @@ http://localhost:3000/spotter#access_token=BQCgaS-Tr7rrVeDHtNiPEYPeuJsGXxzPH36Hf
 const App = () => {
   const handleLogin = () => {
     window.location = `${SPOTIFY_AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL_AFTER_SIGNIN}&scope=${SCOPES_URL_PARAM}&response_type=token&showdialog=true`;
+    
   };
 
   return (
