@@ -1,0 +1,15 @@
+.playlistItem {
+  list-style: none;
+  padding: 10px;
+  border-bottom: 1px solid lightgrey;
+  display: flex;
+  align-items: center;
+
+}
+.playlistImg {
+  width: 100%;
+}
+.playlistConImg {
+  max-width: 50px;
+  margin-right: 5px;
+}
