@@ -120,20 +120,6 @@ const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
     <p style={{ textAlign: "center" }}>Loading...</p>
   ) : (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          padding: "1rem",
-        }}
-      >
-        <button
-          className="playlistBtn"
-          onClick={() => setIsPlaylistOpen(!isPlaylistOpen)}
-        >
-          {buttonName}
-        </button>
-      </div>
       {isPlaylistOpen ? (
         <SpotterPlaylistView
           endpoint={SPOTTER_PLAYLIST_ENDPOINT}
@@ -184,6 +170,20 @@ const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
           </div>
         </div>
       )}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "1rem",
+        }}
+      >
+        <button
+          className="playlistBtn"
+          onClick={() => setIsPlaylistOpen(!isPlaylistOpen)}
+        >
+          {buttonName}
+        </button>
+      </div>
     </>
   );
 };

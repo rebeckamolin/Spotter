@@ -4,7 +4,6 @@
   border-bottom: 1px solid lightgrey;
   display: flex;
   align-items: center;
-
 }
 .playlistImg {
   width: 100%;
@@ -12,4 +11,14 @@
 .playlistConImg {
   max-width: 50px;
   margin-right: 5px;
+}
+h1 {
+  padding-left: 1rem;
+  color: rgb(41, 41, 41);
+  // position: absolute;
+}
+.playlistTitle {
+  position: absolute;
+  background-color: #ffffff9a;
+  width: 432px;
 }

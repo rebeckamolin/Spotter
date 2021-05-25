@@ -30,18 +30,29 @@ const SpotterPlaylistView = ({ endpoint, isPlaylistOpen }) => {
 
   return (
     <div className="playlist">
-      {playlist.map((item, index) => (
-        <div className="playlistItem" key={index}>
-          <div className="playlistConImg">
-            <img
-              className="playlistImg"
-              src={item.track.album.images[0].url}
-              alt="albumImage"
-            />
+      <div
+      className="playlistTitle"
+        style={{
+
+        }}
+      >
+        <h1>My Songs</h1>
+      </div>
+      {/* <div style={{ height: "70px" }}></div> */}
+      <div style={{ paddingTop: "70px" }}>
+        {playlist.map((item, index) => (
+          <div className="playlistItem" key={index}>
+            <div className="playlistConImg">
+              <img
+                className="playlistImg"
+                src={item.track.album.images[0].url}
+                alt="albumImage"
+              />
+            </div>
+            <li>{item.track.name}</li>
           </div>
-          <li>{item.track.name}</li>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

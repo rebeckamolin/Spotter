@@ -211,4 +211,15 @@ p {
   max-width: 50px;
   margin-right: 5px;
 }
+
+h1 {
+  padding-left: 1rem;
+  color: #292929;
+}
+
+.playlistTitle {
+  position: absolute;
+  background-color: #ffffff9a;
+  width: 432px;
+}
 /*# sourceMappingURL=index.css.map */
