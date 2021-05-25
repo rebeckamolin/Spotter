@@ -4,15 +4,15 @@ import "./sass/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import PlaylistContextProvider from "./Contexts/PlaylistContext";
+import GameContextProvider from "./Contexts/GameContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <PlaylistContextProvider>
+    <GameContextProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </PlaylistContextProvider>
+    </GameContextProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -1,95 +1,140 @@
-// import React, { useState, useContext, useEffect } from "react";
-// import axios from "axios";
-// import { PlaylistContext } from "../Contexts/PlaylistContext";
+import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
+import { PlaylistContext } from "../Contexts/PlaylistContext";
 
-// const PLAYLISTS_ENDPOINT = "https://api.spotify.com/v1/me/playlists";
+const USER_PLAYLISTS_ENDPOINT = "https://api.spotify.com/v1/me/playlists";
+const TOP50_PLAYLIST_ENDPOINT =
+  "https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M/tracks";
 
-// const StartGame = () => {
-//   const [playlists, setPlaylists] = useState([]);
-//   const { playlistId, trackUri, playlist, setStart } =
-//     useContext(PlaylistContext);
-//   // const [showPlaylist, setShowPlaylist] = playlist;
-//   const [listId, setListId] = playlistId;
-//   const [loading, setLoading] = useState(true);
+const StartGame = ({
+  gameStartedState: [gameStarted, setGameStarted],
+  top50TracksState: [top50Tracks, setTop50Tracks],
+  spotterPlaylistIdState: [spotterPlaylistId, setSpotterPlaylistId],
+}) => {
+  const [userPlaylists, setUserPlaylists] = useState([]);
+  // const { playlistId, trackUri, playlist } = useContext(PlaylistContext);
+  // const [showPlaylist, setShowPlaylist] = playlist;
+  // const [spotterPlaylistId, setSpotterPlaylistId] = playlistId;
+  // const [top50Tracks, setTop50Tracks] = useState([]);
+  // const [spotterPlaylistId, setSpotterPlaylistId] = useState("");
 
-//   const getAllPlaylists = () => {
-//     axios
-//       .get(PLAYLISTS_ENDPOINT, {
-//         headers: {
-//           Authorization: "Bearer " + localStorage.accessToken,
-//         },
-//       })
-//       .then((response) => {
-//         setPlaylists(response.data.items);
-//         setLoading(false);
-//         console.log("then 1");
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
+  const handleStartGame = async () => {
+    getUserPlaylists();
+    getSpotifyTopPlaylist();
+  };
 
-//   const addNewPlaylist = () => {
-//     axios
-//       .post(
-//         PLAYLISTS_ENDPOINT,
-//         {
-//           name: "Spotter",
-//           description: "Spotter - New Music",
-//           public: true,
-//         },
-//         {
-//           headers: {
-//             Authorization: "Bearer " + localStorage.accessToken,
-//             Accept: "application/json",
-//           },
-//         }
-//       )
-//       .then()
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
+  const getUserPlaylists = async () => {
+    try {
+      const response = await axios.get(USER_PLAYLISTS_ENDPOINT, {
+        headers: {
+          Authorization: "Bearer " + localStorage.accessToken,
+        },
+      });
 
-//   const checkPlaylistExists = () => {
-//     // console.log("playlists", playlists);
-//     const exists = playlists.find(
-//       (playlist) => playlist.name.toLowerCase() === "spotter"
-//     );
+      if (response.status === 200) {
+        // console.log("getUserPlaylists resp:", response);
+        setUserPlaylists(response.data.items);
+      } else {
+        console.log("In getUserPlaylists, status:,", response.status);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-//     if (exists !== undefined) {
-//       console.log("lägg till i befintlig lista");
-//       setListId(exists.id);
-//     } else {
-//       console.log("skapa ny lista");
-//       addNewPlaylist();
-//     }
-//   };
+  const getSpotifyTopPlaylist = async () => {
+    try {
+      const response = await axios.get(TOP50_PLAYLIST_ENDPOINT, {
+        headers: {
+          Authorization: "Bearer " + localStorage.accessToken,
+        },
+      });
+      if (response.status === 200) {
+        console.log("Got Top 50", response);
+        setTop50Tracks(response.data.items);
+      } else {
+        console.log("In getSpotifyTopPlaylist, status:", response.status);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-//   useEffect(() => {
-//     if (!loading && playlists.length > 0) {
-//       checkPlaylistExists();
-//       //   console.log("hey");
-//     }
-//     return () => setStart(true);
-//   }, [loading]);
-//   //   useEffect(() => {
-//   //       effect
-//   //       return () => {
-//   //           cleanup
-//   //       }
-//   //   }, [input])
+  const addNewSpotterPlaylist = async () => {
+    try {
+      const response = await axios.post(
+        USER_PLAYLISTS_ENDPOINT,
+        {
+          name: "Spotter",
+          description: "Spotter - New Music",
+          public: true,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.accessToken,
+            Accept: "application/json",
+          },
+        }
+      );
 
-//   return (
-//     <div
-//       className="card"
-//       style={{
-//         width: "432px",
-//         height: "652px",
-//       }}
-//     >
-//       <button onClick={getAllPlaylists}>Start game</button>
-//     </div>
-//   );
-// };
-// export default StartGame;
+      if (response.status === 201) {
+        console.log("addNewSpotterPlaylist resp:", response);
+        setSpotterPlaylistId(response.data.id);
+      } else {
+        console.log("In addNewSpotterPlaylist, status:,", response.status);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSpotterPlaylist = () => {
+    // Check if a Spotter-playlist already exists
+    const spotterPlaylist = userPlaylists.find(
+      (playlist) => playlist.name.toLowerCase() === "spotter"
+    );
+
+    if (spotterPlaylist !== undefined) {
+      console.log("Songs will be added to an EXISTING playlist");
+      setSpotterPlaylistId(spotterPlaylist.id);
+    } else {
+      console.log("Songs will be added to a NEW playlist");
+      addNewSpotterPlaylist();
+    }
+  };
+
+  useEffect(() => {
+    if (top50Tracks.length > 0 && spotterPlaylistId !== "") {
+      setGameStarted(true);
+      console.log("Game set up");
+      console.log("userPlaylists", userPlaylists);
+      console.log("top50Tracks", top50Tracks);
+    } else if (userPlaylists.length > 0) {
+      handleSpotterPlaylist();
+    }
+  }, [top50Tracks, spotterPlaylistId, userPlaylists]);
+
+  return (
+    <>
+      <div
+        className="card"
+        style={{
+          width: "432px",
+          height: "652px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div>
+          <button className="checkListBtn" onClick={handleStartGame}>
+            Start Game
+          </button>
+        </div>
+        {/* <button onClick={checkPlaylistExists}>kolla lista</button> */}
+      </div>
+    </>
+  );
+};
+
+export default StartGame;

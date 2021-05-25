@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../images/Spotter.png";
 
 const CLIENT_ID = "07720dacbc5f4c5d88232f48031f7a46";
 const SPOTIFY_AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
@@ -18,12 +19,17 @@ http://localhost:3000/spotter#access_token=BQCgaS-Tr7rrVeDHtNiPEYPeuJsGXxzPH36Hf
 const App = () => {
   const handleLogin = () => {
     window.location = `${SPOTIFY_AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL_AFTER_SIGNIN}&scope=${SCOPES_URL_PARAM}&response_type=token&showdialog=true`;
-    
   };
 
   return (
     <div className="signInContainer">
-      <h1>Spotter</h1>
+      <div>
+        <img
+          style={{ maxHeight: "100px", paddingTop: "3rem" }}
+          src={logo}
+          alt=""
+        />
+      </div>
       <button className="signInBtn" onClick={handleLogin}>
         Sign in with Spotify
       </button>

@@ -1,19 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
-import GetPlaylist from "../Components/GetPlaylist";
-import SetupGame from "../Components/SetupGame";
-import MySongs from "../Components/MySongs";
+import Game from "../Components/Game";
+import StartGame from "../Components/StartGame";
+import SpotterPlaylistView from "../Components/SpotterPlaylistView";
 import axios from "axios";
 import { PlaylistContext } from "../Contexts/PlaylistContext";
+import logo from "../images/Spotter.png";
 
 const HomePage = () => {
   const [isPlaylistOpen, setIsPlaylistOpen] = useState(false);
-  const [buttonName, setButtonName] = useState("See Playlist");
   const [gameStarted, setGameStarted] = useState(false);
-
-  useEffect(() => {
-    if (isPlaylistOpen) setButtonName("Choose songs");
-    else setButtonName("See Playlist");
-  }, [isPlaylistOpen]);
+  const [top50Tracks, setTop50Tracks] = useState([]);
+  const [spotterPlaylistId, setSpotterPlaylistId] = useState("");
+  // const SINGLE_PLAYLIST_ENDPOINT = `https://api.spotify.com/v1/playlists/${listId}/tracks`;
 
   const getReturnedParamsFromSpotifyAuth = (hash) => {
     const stringAfterHashtag = hash.substring(1);
@@ -39,16 +37,22 @@ const HomePage = () => {
 
   return (
     <div className="mainContainer">
-      <h1>Spotter</h1>
+      <div>
+        <img
+          style={{ maxHeight: "60px", paddingTop: "3rem" }}
+          src={logo}
+          alt=""
+        />
+      </div>
       {!gameStarted ? (
-        <SetupGame gameStartedState={[gameStarted, setGameStarted]} />
+        <StartGame
+          gameStartedState={[gameStarted, setGameStarted]}
+          top50TracksState={[top50Tracks, setTop50Tracks]}
+          spotterPlaylistIdState={[spotterPlaylistId, setSpotterPlaylistId]}
+        />
       ) : (
-        <div>
-          <button onClick={() => setIsPlaylistOpen(!isPlaylistOpen)}>
-            {buttonName}
-          </button>
-          {isPlaylistOpen ? <MySongs /> : <GetPlaylist />}
-        </div>
+        <Game top50Tracks={top50Tracks} spotterPlaylistId={spotterPlaylistId} />
+        // {isPlaylistOpen ? <SpotterPlaylistView /> : }
       )}
     </div>
   );
@@ -65,7 +69,7 @@ export default HomePage;
 //         <button onClick={() => setIsPlaylistOpen(!isPlaylistOpen)}>
 //           {buttonName}
 //         </button>
-//         {isPlaylistOpen ? <MySongs /> : <GetPlaylist />}
+//         {isPlaylistOpen ? <SpotterPlaylistView /> : <GetPlaylist />}
 //       </div>
 //     )}
 //   </div>
