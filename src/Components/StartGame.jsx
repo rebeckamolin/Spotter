@@ -73,7 +73,6 @@ const StartGame = ({
       );
 
       if (response.status === 201) {
-        console.log("addNewSpotterPlaylist resp:", response);
         setSpotterPlaylistId(response.data.id);
       } else {
         console.log("In addNewSpotterPlaylist, status:,", response.status);
@@ -91,10 +90,8 @@ const StartGame = ({
     );
 
     if (spotterPlaylist !== undefined) {
-      console.log("Songs will be added to an EXISTING playlist");
       setSpotterPlaylistId(spotterPlaylist.id);
     } else {
-      console.log("Songs will be added to a NEW playlist");
       addNewSpotterPlaylist();
     }
   };
@@ -103,9 +100,6 @@ const StartGame = ({
   useEffect(() => {
     if (top50Tracks.length > 0 && spotterPlaylistId !== "") {
       setGameStarted(true);
-      console.log("Game set up");
-      console.log("userPlaylists", userPlaylists);
-      console.log("top50Tracks", top50Tracks);
     } else if (userPlaylists.length > 0) {
       handleSpotterPlaylist();
     }

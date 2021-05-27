@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import close from "../images/close.png";
 
 const SpotterPlaylistView = ({ endpoint, isPlaylistOpen }) => {
-  const [playlist, setPlaylist] = useState([]);
-  console.log("spotterPlaylistId", endpoint);
+  const [spotterPlaylist, setSpotterPlaylist] = useState([]);
 
-  //Get the Spotter playlist and presenting all songs
+  // Get the Spotter playlist
   const getSpotterPlaylist = async () => {
     try {
       const response = await axios.get(endpoint, {
@@ -14,12 +14,38 @@ const SpotterPlaylistView = ({ endpoint, isPlaylistOpen }) => {
         },
       });
       if (response.status === 200) {
-        setPlaylist(response.data.items);
+        setSpotterPlaylist(response.data.items);
       }
     } catch (err) {
       console.error(err);
     }
   };
+
+  // Delete song in Spotter playlist
+  const deleteTrack = async (idx) => {
+    try {
+      const response = await axios.delete(endpoint, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.accessToken,
+        },
+        data: {
+          tracks: [
+            {
+              uri: spotterPlaylist[idx].track.uri,
+            },
+          ],
+        },
+      });
+
+      if (response.status === 200) {
+        getSpotterPlaylist();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
 
   useEffect(() => {
     getSpotterPlaylist();
@@ -31,16 +57,30 @@ const SpotterPlaylistView = ({ endpoint, isPlaylistOpen }) => {
         <h1>My Songs</h1>
       </div>
       <div style={{ paddingTop: "70px" }}>
-        {playlist.map((item, index) => (
-          <div className="playlistItem" key={index}>
-            <div className="playlistConImg">
-              <img
-                className="playlistImg"
-                src={item.track.album.images[0].url}
-                alt="albumImage"
-              />
+        {spotterPlaylist.map((item, index) => (
+          <div className="playlistItem" key={index} style={{}}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <div className="playlistConImg">
+                <img
+                  className="playlistImg"
+                  src={item.track.album.images[0].url}
+                  alt="albumImage"
+                />
+              </div>
+              <li>{item.track.name}</li>
             </div>
-            <li>{item.track.name}</li>
+            <div
+              style={{ maxWidth: "10px", cursor: "pointer" }}
+              onClick={() => {if(window.confirm('This song will be permanent deleted'))deleteTrack(index)}}
+            >
+              <img style={{ width: "100%" }} src={close} alt="" />
+            </div>
           </div>
         ))}
       </div>

@@ -19,8 +19,6 @@ const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
 
   const SPOTTER_PLAYLIST_ENDPOINT = `https://api.spotify.com/v1/playlists/${spotterPlaylistId}/tracks`;
 
-  console.log("audio", audio);
-
   //Change currentTrack to the next song in order. Add the liked song to Spotify playlist
   const handleLikeClick = () => {
     addNewSongToPlaylist();
@@ -29,8 +27,10 @@ const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
 
   //Change currentTrack to the next song in order.
   const getNextSong = () => {
-    audio.pause();
-    audio.currentTime = 0;
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
     setPlayer(playerBtns.Play);
     setIndex(index + 1);
   };
@@ -46,7 +46,9 @@ const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
         setPlayer(playerBtns.Play);
       }
     } else {
-      alert("no song avaliable :( But like it and find it in your Spotter playlist on Spotify!");
+      alert(
+        "no song avaliable :( But like it and find it in your Spotter playlist on Spotify!"
+      );
     }
   };
 
@@ -70,17 +72,17 @@ const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
           }
         );
 
-        if (response.status === 201) {
-          console.log(response.status, response.data);
-        } else {
+        if (response.status !== 201) {
           console.log("In addNewSongToPlaylist, status:,", response.status);
         }
+
       } catch (err) {
         console.error(err);
       }
     } else {
-      console.log("Track already in Spotter playlist!");
-      alert("No need for doubles! This track is already in your Spotter playlist!");
+      alert(
+        "No need for doubles! This track is already in your Spotter playlist!"
+      );
     }
   };
 
@@ -116,7 +118,7 @@ const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
     }
   }, [isPlaylistOpen]);
 
-  //Makes sure the whole list is saved before countinuing 
+  //Makes sure the whole list is saved before countinuing
   useEffect(() => {
     if (index < top50Tracks.length) {
       setCurrentTrack(top50Tracks[index].track);
