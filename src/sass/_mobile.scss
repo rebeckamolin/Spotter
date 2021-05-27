@@ -1,0 +1,23 @@
+@media screen and (max-width: 1000px) {
+  .card,
+  .playlist {
+    width: 300px;
+    height: 540px;
+  }
+  // .playlist {
+  //   padding-bottom: 2rem;
+  //   padding-top: 0;
+  // }
+  .dislikeBtn,
+  .likeBtn {
+    height: 60px;
+    width: 60px;
+  }
+  .playerBtn {
+    height: 83px;
+    width: 83px;
+  }
+  .playlistTitle {
+    width: 300px;
+  }
+}

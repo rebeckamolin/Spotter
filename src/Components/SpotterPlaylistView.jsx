@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { PlaylistContext } from "../Contexts/PlaylistContext";
 
 const SpotterPlaylistView = ({ endpoint, isPlaylistOpen }) => {
-  // const { playlistId, trackUri } = useContext(PlaylistContext);
-  // const [listId] = playlistId;
   const [playlist, setPlaylist] = useState([]);
-  // const SPOTTER_PLAYLIST_ENDPOINT = `https://api.spotify.com/v1/playlists/${spotterPlaylistId}/tracks`;
   console.log("spotterPlaylistId", endpoint);
 
+  //Get the Spotter playlist and presenting all songs
   const getSpotterPlaylist = async () => {
     try {
       const response = await axios.get(endpoint, {
@@ -30,15 +27,9 @@ const SpotterPlaylistView = ({ endpoint, isPlaylistOpen }) => {
 
   return (
     <div className="playlist">
-      <div
-      className="playlistTitle"
-        style={{
-
-        }}
-      >
+      <div className="playlistTitle">
         <h1>My Songs</h1>
       </div>
-      {/* <div style={{ height: "70px" }}></div> */}
       <div style={{ paddingTop: "70px" }}>
         {playlist.map((item, index) => (
           <div className="playlistItem" key={index}>

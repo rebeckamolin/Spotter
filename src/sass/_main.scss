@@ -2,7 +2,7 @@
   font-family: proxima-nova, sans-serif;
 }
 body {
-  background-image: url("../images/tile_background.png");
+  background-image: url("../images/spotter_background.png");
 }
 video {
   height: 1px;
@@ -11,4 +11,11 @@ video {
 p {
   font-weight: 700;
   max-width: 400px;
+}
+li {
+  font-size: 12px;
+}
+.logo {
+  max-height: 100px;
+  padding-top: 3rem;
 }

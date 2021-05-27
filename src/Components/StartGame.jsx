@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { PlaylistContext } from "../Contexts/PlaylistContext";
 
 const USER_PLAYLISTS_ENDPOINT = "https://api.spotify.com/v1/me/playlists";
 const TOP50_PLAYLIST_ENDPOINT =
@@ -12,17 +11,13 @@ const StartGame = ({
   spotterPlaylistIdState: [spotterPlaylistId, setSpotterPlaylistId],
 }) => {
   const [userPlaylists, setUserPlaylists] = useState([]);
-  // const { playlistId, trackUri, playlist } = useContext(PlaylistContext);
-  // const [showPlaylist, setShowPlaylist] = playlist;
-  // const [spotterPlaylistId, setSpotterPlaylistId] = playlistId;
-  // const [top50Tracks, setTop50Tracks] = useState([]);
-  // const [spotterPlaylistId, setSpotterPlaylistId] = useState("");
 
   const handleStartGame = async () => {
     getUserPlaylists();
     getSpotifyTopPlaylist();
   };
 
+  //getting the users playlists
   const getUserPlaylists = async () => {
     try {
       const response = await axios.get(USER_PLAYLISTS_ENDPOINT, {
@@ -32,7 +27,6 @@ const StartGame = ({
       });
 
       if (response.status === 200) {
-        // console.log("getUserPlaylists resp:", response);
         setUserPlaylists(response.data.items);
       } else {
         console.log("In getUserPlaylists, status:,", response.status);
@@ -42,6 +36,7 @@ const StartGame = ({
     }
   };
 
+  //getting spotify top 50 playlist
   const getSpotifyTopPlaylist = async () => {
     try {
       const response = await axios.get(TOP50_PLAYLIST_ENDPOINT, {
@@ -50,7 +45,6 @@ const StartGame = ({
         },
       });
       if (response.status === 200) {
-        console.log("Got Top 50", response);
         setTop50Tracks(response.data.items);
       } else {
         console.log("In getSpotifyTopPlaylist, status:", response.status);
@@ -60,6 +54,7 @@ const StartGame = ({
     }
   };
 
+  //Add new playlist with the name "Spotter"
   const addNewSpotterPlaylist = async () => {
     try {
       const response = await axios.post(
@@ -88,6 +83,7 @@ const StartGame = ({
     }
   };
 
+  //If a Spotter playlists doesn't exists, create one
   const handleSpotterPlaylist = () => {
     // Check if a Spotter-playlist already exists
     const spotterPlaylist = userPlaylists.find(
@@ -103,6 +99,7 @@ const StartGame = ({
     }
   };
 
+  //Making sure everything is ready before continuing
   useEffect(() => {
     if (top50Tracks.length > 0 && spotterPlaylistId !== "") {
       setGameStarted(true);
@@ -116,22 +113,12 @@ const StartGame = ({
 
   return (
     <>
-      <div
-        className="card"
-        style={{
-          width: "432px",
-          height: "652px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className="card startGame">
         <div>
           <button className="checkListBtn" onClick={handleStartGame}>
             Start Game
           </button>
         </div>
-        {/* <button onClick={checkPlaylistExists}>kolla lista</button> */}
       </div>
     </>
   );

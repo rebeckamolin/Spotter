@@ -1,55 +1,58 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ReactCardFlip from "react-card-flip";
-import { GameContext } from "../Contexts/GameContext";
 import SpotterPlaylistView from "./SpotterPlaylistView";
 import ThumbsUp from "../images/thumbs-up-transparent.png";
 import ThumbsDown from "../images/thumbs-down-transparent.png";
 import Pause from "../images/pause.png";
 import Play from "../images/play.png";
 
-// const PLAYLISTS_ENDPOINT = "https://api.spotify.com/v1/me/playlists";
-const PLAYLIST_50_ENDPOINT =
-  "https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M/tracks";
-
 const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
   const [isPlaylistOpen, setIsPlaylistOpen] = useState(false);
   const [index, setIndex] = useState(0);
   const [currentTrack, setCurrentTrack] = useState(top50Tracks[0].track);
   const [spotterPlaylist, setSpotterPlaylist] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [buttonName, setButtonName] = useState("See Playlist");
+  const playerBtns = { Pause, Play };
+  const [player, setPlayer] = useState(playerBtns.Play);
+  const [audio, setAudio] = useState();
 
   const SPOTTER_PLAYLIST_ENDPOINT = `https://api.spotify.com/v1/playlists/${spotterPlaylistId}/tracks`;
 
-  //en låt gillas => ändrar currenttrack till nästa samt ändrar TUri => newUri => lägger till låten i listan
+  console.log("audio", audio);
+
+  //Change currentTrack to the next song in order. Add the liked song to Spotify playlist
   const handleLikeClick = () => {
     addNewSongToPlaylist();
     getNextSong();
   };
 
-  //En låt ogillas => ändrar currentTrack till ny låt
+  //Change currentTrack to the next song in order.
   const getNextSong = () => {
+    audio.pause();
+    audio.currentTime = 0;
+    setPlayer(playerBtns.Play);
     setIndex(index + 1);
   };
 
-  const pauseTrack = () => {
-    const pause = document.getElementById(currentTrack.preview_url);
-    if (pause !== null) {
-      if (pause.paused) {
-        pause.play();
+  //Controlls the sound and play/pause buttons
+  const playerToggle = () => {
+    if (audio !== null) {
+      if (audio.paused) {
+        audio.play();
         setPlayer(playerBtns.Pause);
       } else {
-        pause.pause();
+        audio.pause();
         setPlayer(playerBtns.Play);
       }
     } else {
-      alert("no preview avaliable");
+      alert("no song avaliable :( But like it and find it in your Spotter playlist on Spotify!");
     }
   };
 
-  const playerBtns = { Pause, Play };
-  const [player, setPlayer] = useState(playerBtns.Play);
+  useEffect(() => {
+    setAudio(document.getElementById(currentTrack.preview_url));
+  }, [currentTrack]);
 
   const addNewSongToPlaylist = async () => {
     if (!spotterPlaylist.find((item) => item.track.id === currentTrack.id)) {
@@ -77,10 +80,11 @@ const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
       }
     } else {
       console.log("Track already in Spotter playlist!");
-      alert("Track already in Spotter playlist!");
+      alert("No need for doubles! This track is already in your Spotter playlist!");
     }
   };
 
+  //Get Your personal Spotter playlist where your songs will be added
   const getSpotterPlaylist = async () => {
     try {
       const response = await axios.get(SPOTTER_PLAYLIST_ENDPOINT, {
@@ -100,14 +104,19 @@ const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
     getSpotterPlaylist();
   }, []);
 
+  //Toggles the see playlist/game button
   useEffect(() => {
     if (isPlaylistOpen) {
       setButtonName("Choose songs");
+      setPlayer(playerBtns.Play);
+      audio.pause();
+      audio.currentTime = 0;
     } else {
       setButtonName("See Playlist");
     }
   }, [isPlaylistOpen]);
 
+  //Makes sure the whole list is saved before countinuing 
   useEffect(() => {
     if (index < top50Tracks.length) {
       setCurrentTrack(top50Tracks[index].track);
@@ -145,7 +154,7 @@ const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
             <button
               className="playerBtn"
               onClick={() => {
-                pauseTrack();
+                playerToggle();
               }}
             >
               <img src={player} alt="" />
@@ -160,10 +169,11 @@ const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
               />
             </button>
             <audio
-              // autoplay=""
+              // autoplay
               name="media"
               key={currentTrack.preview_url}
               id={currentTrack.preview_url}
+              onEnded={() => setPlayer(playerBtns.Play)}
             >
               <source src={currentTrack.preview_url} type="audio/mpeg" />
             </audio>

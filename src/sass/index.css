@@ -3,7 +3,7 @@
 }
 
 body {
-  background-image: url("../images/tile_background.png");
+  background-image: url("../images/spotter_background.png");
 }
 
 video {
@@ -14,6 +14,15 @@ video {
 p {
   font-weight: 700;
   max-width: 400px;
+}
+
+li {
+  font-size: 12px;
+}
+
+.logo {
+  max-height: 100px;
+  padding-top: 3rem;
 }
 
 .signInBtn,
@@ -65,7 +74,7 @@ p {
 }
 
 .playerBtn img {
-  max-width: 80%;
+  max-width: 45%;
 }
 
 .checkListBtn {
@@ -109,9 +118,7 @@ p {
 }
 
 .dislikeBtn img {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
-  padding-bottom: 5px;
+  padding-top: 5px;
 }
 
 .signInContainer {
@@ -161,19 +168,20 @@ p {
 }
 
 .image {
-  max-width: 400px;
-  max-height: 400px;
+  max-width: 300px;
+  max-height: 300px;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
           box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
 }
 
 .image img {
   width: 100%;
+  height: 100%;
 }
 
 .card {
-  max-width: 500px;
-  max-height: 652px;
+  width: 500px;
+  height: 652px;
   border-radius: 5px;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
           box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
@@ -184,11 +192,26 @@ p {
 .playlist {
   background-color: white;
   overflow: scroll;
-  width: 432px;
+  width: 500px;
   height: 652px;
   border-radius: 5px;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
           box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
+  padding: 1rem;
+  padding-bottom: 2rem;
+  padding-top: 0;
+}
+
+.startGame {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .playlistItem {
@@ -221,5 +244,25 @@ h1 {
   position: absolute;
   background-color: #ffffff9a;
   width: 432px;
+}
+
+@media screen and (max-width: 1000px) {
+  .card,
+  .playlist {
+    width: 300px;
+    height: 540px;
+  }
+  .dislikeBtn,
+  .likeBtn {
+    height: 60px;
+    width: 60px;
+  }
+  .playerBtn {
+    height: 83px;
+    width: 83px;
+  }
+  .playlistTitle {
+    width: 300px;
+  }
 }
 /*# sourceMappingURL=index.css.map */

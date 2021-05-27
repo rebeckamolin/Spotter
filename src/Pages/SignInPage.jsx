@@ -13,9 +13,6 @@ const SCOPES = [
 ];
 const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);
 
-/*
-http://localhost:3000/spotter#access_token=BQCgaS-Tr7rrVeDHtNiPEYPeuJsGXxzPH36Hf8B3U1JE6vj4N-m-dGHYbTdDtHvsgglmLnDOI-piUbUsNesGOtocfrKpGmcjniMbhaK_1eEaNgN1PK-QAUPWsEplEiCSM62Eu6QIfcAPVd4&token_type=Bearer&expires_in=3600
-*/
 const App = () => {
   const handleLogin = () => {
     window.location = `${SPOTIFY_AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL_AFTER_SIGNIN}&scope=${SCOPES_URL_PARAM}&response_type=token&showdialog=true`;
@@ -24,8 +21,8 @@ const App = () => {
   return (
     <div className="signInContainer">
       <div>
-        <img
-          style={{ maxHeight: "100px", paddingTop: "3rem" }}
+        <img className="logo"
+          style={{}}
           src={logo}
           alt=""
         />
