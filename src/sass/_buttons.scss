@@ -17,7 +17,7 @@
   background-color: #1cd760;
 }
 .likeBtn {
-  background-color: rgb(154, 255, 154);
+  background-color: rgb(142, 247, 142);
 }
 .dislikeBtn {
   background-color: rgb(255, 158, 151);
@@ -48,6 +48,7 @@
   background-color: powderblue;
   display: flex;
   justify-content: center;
+  margin: 1rem;
 }
 .dislikeBtn,
 .likeBtn {
@@ -70,4 +71,11 @@
 }
 .dislikeBtn img {
   padding-top: 5px;
+}
+.deleteBtn {
+  max-width: 10px;
+  cursor: pointer;
+  img {
+    width: 100%;
+  }
 }

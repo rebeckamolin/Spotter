@@ -183,11 +183,6 @@ const GetPlaylist = ({ top50Tracks, spotterPlaylistId }) => {
         </div>
       )}
       <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          padding: "1rem",
-        }}
       >
         <button
           className="playlistBtn"

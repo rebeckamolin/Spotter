@@ -46,7 +46,6 @@ const SpotterPlaylistView = ({ endpoint, isPlaylistOpen }) => {
     }
   };
 
-
   useEffect(() => {
     getSpotterPlaylist();
   }, []);
@@ -59,13 +58,7 @@ const SpotterPlaylistView = ({ endpoint, isPlaylistOpen }) => {
       <div style={{ paddingTop: "70px" }}>
         {spotterPlaylist.map((item, index) => (
           <div className="playlistItem" key={index} style={{}}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            <div className="itemsInfo">
               <div className="playlistConImg">
                 <img
                   className="playlistImg"
@@ -76,10 +69,13 @@ const SpotterPlaylistView = ({ endpoint, isPlaylistOpen }) => {
               <li>{item.track.name}</li>
             </div>
             <div
-              style={{ maxWidth: "10px", cursor: "pointer" }}
-              onClick={() => {if(window.confirm('This song will be permanent deleted'))deleteTrack(index)}}
+              className="deleteBtn"
+              onClick={() => {
+                if (window.confirm("This song will be permanent deleted"))
+                  deleteTrack(index);
+              }}
             >
-              <img style={{ width: "100%" }} src={close} alt="" />
+              <img src={close} alt="" />
             </div>
           </div>
         ))}

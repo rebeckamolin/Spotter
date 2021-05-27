@@ -25,6 +25,11 @@ li {
   padding-top: 3rem;
 }
 
+.logoHome {
+  max-height: 60px;
+  padding-top: 3rem;
+}
+
 .signInBtn,
 .checkListBtn,
 .playlistBtn {
@@ -45,7 +50,7 @@ li {
 }
 
 .likeBtn {
-  background-color: #9aff9a;
+  background-color: #8ef78e;
 }
 
 .dislikeBtn {
@@ -89,6 +94,7 @@ li {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  margin: 1rem;
 }
 
 .dislikeBtn,
@@ -119,6 +125,15 @@ li {
 
 .dislikeBtn img {
   padding-top: 5px;
+}
+
+.deleteBtn {
+  max-width: 10px;
+  cursor: pointer;
+}
+
+.deleteBtn img {
+  width: 100%;
 }
 
 .signInContainer {
@@ -247,6 +262,18 @@ h1 {
   position: absolute;
   background-color: #ffffff9a;
   width: 432px;
+}
+
+.itemsInfo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 @media screen and (max-width: 1000px) {

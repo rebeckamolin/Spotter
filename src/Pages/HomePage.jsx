@@ -36,8 +36,7 @@ const HomePage = () => {
   return (
     <div className="mainContainer">
       <div>
-        <img className=""
-          style={{ maxHeight: "60px", paddingTop: "3rem" }}
+        <img className="logoHome"
           src={logo}
           alt=""
         />
