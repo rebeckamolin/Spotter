@@ -21,7 +21,7 @@ const App = () => {
   return (
     <div className="signInContainer">
       <div>
-        <img className="logo" src={logo} alt="" />
+        <img className="logo"src={logo} alt="" />
       </div>
       <button className="signInBtn" onClick={handleLogin}>
         Sign in with Spotify

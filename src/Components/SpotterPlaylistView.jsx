@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import close from "../images/close.png";
 
-const SpotterPlaylistView = ({ endpoint, isPlaylistOpen }) => {
+const SpotterPlaylistView = ({ endpoint }) => {
   const [spotterPlaylist, setSpotterPlaylist] = useState([]);
 
   // Get the Spotter playlist
