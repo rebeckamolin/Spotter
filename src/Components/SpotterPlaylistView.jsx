@@ -71,7 +71,7 @@ const SpotterPlaylistView = ({ endpoint }) => {
             <div
               className="deleteBtn"
               onClick={() => {
-                if (window.confirm("This song will be permanent deleted"))
+                if (window.confirm("This song will be permanently deleted"))
                   deleteTrack(index);
               }}
             >
